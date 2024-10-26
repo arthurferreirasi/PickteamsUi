@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --color-main-bg: #f4f4f6;    
+    --color-main-red: #d33c43;
+    --color-main-gray: #404041;
+    --color-main-black: #000;
+
+    --color-lightgray: #606c76;
+    --color-white: #fff;
+
+    --color-links: var(--color-cakephp-blue);
+    --color-links-active: #2a6496;
+    --color-headings: #363637;
+
+}

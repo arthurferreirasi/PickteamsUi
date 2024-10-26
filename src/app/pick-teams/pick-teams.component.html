@@ -1,0 +1,25 @@
+<mat-tab-group>
+    <mat-tab label="Sem cabeça de chave">
+        <div class="quickstart-column-container">
+            <div class="quickstart-input-container">
+                <form (ngSubmit)="addPlayer()" class="player-form">
+                    <mat-form-field>
+                        <label>Lista de jogadores:</label>
+                        <textarea matInput class="list-players-textarea" name="listPlayers" [(ngModel)]="players" (input)="canRun()" rows="9" required
+                            placeholder="Insira a lista com o nome dos jogadores">
+                    </textarea>
+                        <mat-error *ngIf="isInvalidPlayers">Favor preencher o campo acima.</mat-error>
+                    </mat-form-field>
+                    <button type="submit" mat-mini-fab class="shuffle-button" [disabled]="isInvalidPlayers">
+                        <mat-icon>shuffle</mat-icon>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Com cabeça de chave">
+
+    </mat-tab>
+  </mat-tab-group>
+  
