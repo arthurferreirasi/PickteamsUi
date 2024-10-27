@@ -1,19 +1,12 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatError, MatFormField } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-pick-teams',
   standalone: true,
   imports: [
-    MatTabsModule,
-    MatFormField,
-    MatError,
-    MatIcon,
-    FormsModule
+    MatTabsModule
   ],
   templateUrl: './pick-teams.component.html',
   styleUrl: './pick-teams.component.css'
