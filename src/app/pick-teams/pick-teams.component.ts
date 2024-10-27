@@ -1,4 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { delay } from 'rxjs';
 
@@ -6,7 +11,12 @@ import { delay } from 'rxjs';
   selector: 'app-pick-teams',
   standalone: true,
   imports: [
-    MatTabsModule
+    MatTabsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    FormsModule,
+    CommonModule,
+    MatInputModule
   ],
   templateUrl: './pick-teams.component.html',
   styleUrl: './pick-teams.component.css'
