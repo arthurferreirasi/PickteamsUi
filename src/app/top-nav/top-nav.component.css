@@ -25,13 +25,6 @@ a {
     transition: color 0.2s linear;
 }
 
-/* a:hover,
-a:focus,
-a:active {
-    color: var(--color-links-active);
-    transition: color 0.2s ease-out;
-} */
-
 .top-nav {
     background-color: var(--color-main-bg);
     color: var(--color-main-black);
