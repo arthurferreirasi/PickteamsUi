@@ -1,18 +1,21 @@
 <mat-tab-group>
     <mat-tab label="Sem cabeça de chave">
+        <div class="full-panel">
         <div class="pick-teams-container">
             <form (ngSubmit)="addPlayer(false)" class="player-form">
                 <button type="submit" mat-fab [disabled]="isInvalidPlayers">
                     <mat-icon>shuffle</mat-icon>
                     <span>Tirar times</span>
                 </button>
-                <mat-form-field>
-                    <mat-label>Jogadores por time:</mat-label>
-                    <input type="number" matInput (keypress)="onlyNumbers($event)" [(ngModel)]="playersPerTeam" name="playersPerTeam">
-                  </mat-form-field>
-                <div class="list-players-textarea">
+                <div class="form-fields">
                     <mat-form-field>
-                        <label>Lista de jogadores:</label>
+                        <mat-label>Jogadores por time:</mat-label>
+                        <input type="number" matInput (keypress)="onlyNumbers($event)" [(ngModel)]="playersPerTeam"
+                            name="playersPerTeam">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Lista de jogadores:</mat-label>
                         <textarea matInput name="listPlayers" [(ngModel)]="players" (input)="canRun()" rows="9" required
                             placeholder="Insira a lista com o nome dos jogadores">
                         </textarea>
@@ -20,6 +23,16 @@
                     </mat-form-field>
                 </div>
             </form>
+        </div>
+
+        <div class="result-container" *ngIf="isReady">
+            <button mat-fab (click)="copyToClipboard(dataSource)">
+                <mat-icon>file_copy</mat-icon>
+                <span>Copiar</span>
+            </button>
+            <textarea [value]="dataSource" readonly *ngIf="isReady" rows="21"></textarea>
+            
+        </div>
         </div>
     </mat-tab>
 

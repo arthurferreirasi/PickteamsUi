@@ -1,8 +1,14 @@
+.full-panel {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+}
 
 .pick-teams-container {
     margin-top: 1rem;
     background-color: var(--color-main-bg);
-    width: 50em;
+    width: 20%;
     border-radius: 0.625rem;
     border-left: 1px solid #e3e3e3;
     border-bottom: 1px solid #e3e3e3;
@@ -12,7 +18,7 @@
 }
 
 .pick-teams-container button{
-    width: 10rem;
+    width: 50%;
     height: 2.5rem;
     display: flex; 
     align-items: center; 
@@ -22,10 +28,42 @@
     font-size: medium;
 }
 
-.list-players-textarea {
-    margin-top: 2rem;
+.form-fields {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
 }
-.list-players-textarea textarea{
+.form-fields textarea{
+    resize: none;
+    color: var(--color-main-black);
+    margin-top: 1rem;
+    font-family: 'Courier New', monospace !important;
+}
+
+.result-container {
+    margin-top: 1rem;
+    background-color: var(--color-main-bg);
+    width: 20%;
+    border-radius: 0.625rem;
+    border-left: 1px solid #e3e3e3;
+    border-bottom: 1px solid #e3e3e3;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin: 1rem auto;
+}
+
+.result-container button{
+    width: 50%;
+    height: 2.5rem;
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
+    margin: auto;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: medium;
+}
+
+.result-container textarea{
     resize: none;
     color: var(--color-main-black);
     margin-top: 1rem;

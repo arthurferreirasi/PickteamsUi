@@ -6,10 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import { delay } from 'rxjs';
 import { Player } from '../models/player';
 import { PickTeamsService } from '../services/pick-teams.service';
-import { provideHttpClient } from '@angular/common/http';
+import { MatTableModule } from '@angular/material/table';
+import { Team } from '../models/team';
 
 @Component({
   selector: 'app-pick-teams',
@@ -21,8 +21,9 @@ import { provideHttpClient } from '@angular/common/http';
     MatButtonModule,
     FormsModule,
     CommonModule,
-    MatInputModule
-  ],
+    MatInputModule,
+    MatTableModule
+],
   templateUrl: './pick-teams.component.html',
   styleUrl: './pick-teams.component.css'
 })
@@ -33,10 +34,12 @@ export class PickTeamsComponent {
   listPlayers!: Player[];
   isInvalidPlayers!: boolean;
   isReady: boolean = false;
-  dataSource!: any[];
+  dataSource: string = '';
   isLoading: boolean = false;
   hasSeedPlayers: boolean = false;
   form: FormGroup;
+  displayedColumns: string[] = [];
+  maxPlayers: number = 0;
 
   constructor(private fb: FormBuilder, private svc: PickTeamsService) {
     this.form = this.fb.group({
@@ -46,7 +49,7 @@ export class PickTeamsComponent {
 
   ngOnInit(): void {
     this.isInvalidPlayers = true;
-    this.dataSource = [];
+    this.dataSource = '';
     this.listPlayers = [];
   }
 
@@ -66,15 +69,15 @@ export class PickTeamsComponent {
     this.hasSeedPlayers = hasSeed;
     if (this.canRun())
       return;
+    this.cleanData();
     this.isLoading = true;
-    delay(10000);
-    this.isLoading = false;
     this.formatListPlayers(this.players);
-    console.log(this.listPlayers);
     this.svc.pickTeams(this.listPlayers, this.playersPerTeam).subscribe(result => {
-      console.log(result);
+      this.dataSource = this.formatDataSource(result);
+      this.isReady = true;
     });
     this.players = '';
+    this.isLoading = false;
   }
 
   private formatListPlayers(players: string) {
@@ -82,5 +85,25 @@ export class PickTeamsComponent {
     list = list.map(x => x.replace(/[^a-zA-Z\sáÁàÀâÂãÃéÉêÊíÍóÓôÔõÕúÚüÜ]/g, ''));
     list = list.filter(item => item.trim() !== "");
     list.forEach(x => this.listPlayers.push(new Player(x, false)));
+  }
+
+  private formatDataSource(data: Team[]): string {
+    return data.map(team => {
+      const players = team.players.map(p => p.name.trim()).join('\n');
+      return `${team.teamName}:\n${players}\n__________________`;
+    }).join('\n\n');
+  }
+
+  copyToClipboard(data: string) {
+    navigator.clipboard.writeText(data).then(() => {
+      alert('Conteúdo copiado para a área de transferência!');
+    }).catch(err => {
+      console.error('Erro ao copiar para a área de transferência: ', err);
+    });
+  }
+
+  cleanData(){
+    this.listPlayers = [];
+    this.displayedColumns = [];
   }
 }

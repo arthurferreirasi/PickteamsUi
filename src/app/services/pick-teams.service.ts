@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Player } from '../models/player';
 import { Observable } from 'rxjs';
+import { Team } from '../models/team';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +12,15 @@ export class PickTeamsService {
 
   constructor(private http: HttpClient) { }
 
-  public pickTeams(listPlayers: Player[], playersPerTeam: number): Observable<any>{
-      const url = `${this.apiUrl}?quantity=${playersPerTeam}`;
-  
-      return this.http.post<any>(url, listPlayers);
-}
+  public pickTeams(listPlayers: Player[], playersPerTeam: number): Observable<Array<Team>> {
+    const url = `${this.apiUrl}?quantityPerTeam=${playersPerTeam}`;
 
-public pickTeamsWithSeedPlayers(listPlayers: Player[], playersPerTeam: number): Observable<any>{
-  const url = `${this.apiUrl}?quantity=${playersPerTeam}`;
+    return this.http.post<any>(url, listPlayers);
+  }
 
-  return this.http.post<any>(url, listPlayers);
-}
+  public pickTeamsWithSeedPlayers(listPlayers: Player[], playersPerTeam: number): Observable<Array<Team>> {
+    const url = `${this.apiUrl}?PickTeamsSeedPlayers?quantityPerTeam=${playersPerTeam}`;
+
+    return this.http.post<any>(url, listPlayers);
+  }
 }
