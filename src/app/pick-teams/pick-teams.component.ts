@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +10,9 @@ import { Player } from '../models/player';
 import { PickTeamsService } from '../services/pick-teams.service';
 import { MatTableModule } from '@angular/material/table';
 import { Team } from '../models/team';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialog } from '@angular/material/dialog';
+import { SelectSeedPlayersModalComponent } from '../select-seed-players-modal/select-seed-players-modal.component';
 
 @Component({
   selector: 'app-pick-teams',
@@ -22,12 +25,16 @@ import { Team } from '../models/team';
     FormsModule,
     CommonModule,
     MatInputModule,
-    MatTableModule
+    MatTableModule,
+    MatSlideToggleModule,
+    SelectSeedPlayersModalComponent
 ],
   templateUrl: './pick-teams.component.html',
   styleUrl: './pick-teams.component.css'
 })
 export class PickTeamsComponent {
+  dialog = inject(MatDialog);
+
 
   players: string = '';
   playersPerTeam: number = 0;
@@ -40,6 +47,7 @@ export class PickTeamsComponent {
   form: FormGroup;
   displayedColumns: string[] = [];
   maxPlayers: number = 0;
+  canSelectSeed: boolean = false;
 
   constructor(private fb: FormBuilder, private svc: PickTeamsService) {
     this.form = this.fb.group({
@@ -65,8 +73,22 @@ export class PickTeamsComponent {
     return this.isInvalidPlayers;
   }
 
-  addPlayer(hasSeed: boolean) {
-    this.hasSeedPlayers = hasSeed;
+  openDialog() {
+    this.dialog.open(SelectSeedPlayersModalComponent, {
+      data: this.listPlayers,
+    });
+  }
+
+  selectSeedPlayers() {
+    if (this.canRun())
+      return;
+    this.cleanData();
+    this.isLoading = true;
+    this.formatListPlayers(this.players);
+    this.openDialog();
+  }
+
+  addPlayer() {
     if (this.canRun())
       return;
     this.cleanData();

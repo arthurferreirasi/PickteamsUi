@@ -79,11 +79,7 @@
         flex-direction: column;
     }
 
-    .pick-teams-container {
-        width: 80vw;
-    }
-
-    .result-container {
+    .pick-teams-container, .result-container {
         width: 80vw;
     }
 

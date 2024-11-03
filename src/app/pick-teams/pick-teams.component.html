@@ -2,7 +2,7 @@
     <mat-tab label="Sem cabeça de chave">
         <div class="full-panel">
         <div class="pick-teams-container">
-            <form (ngSubmit)="addPlayer(false)" class="player-form">
+            <form (ngSubmit)="addPlayer()" class="player-form">
                 <button type="submit" mat-fab [disabled]="isInvalidPlayers">
                     <mat-icon>shuffle</mat-icon>
                     <span>Tirar times</span>
@@ -37,6 +37,39 @@
     </mat-tab>
 
     <mat-tab label="Com cabeça de chave">
+        <div class="full-panel">
+            <div class="pick-teams-container">
+                <form (ngSubmit)="selectSeedPlayers()" class="player-form">
+                    <button type="submit" mat-fab [disabled]="isInvalidPlayers">
+                        <mat-icon>key</mat-icon>
+                        <span>Marcar chaves</span>
+                    </button>
+                    <div class="form-fields">
+                        <mat-form-field>
+                            <mat-label>Jogadores por time:</mat-label>
+                            <input type="number" matInput (keypress)="onlyNumbers($event)" [(ngModel)]="playersPerTeam"
+                                name="playersPerTeam">
+                        </mat-form-field>
+    
+                        <mat-form-field>
+                            <mat-label>Lista de jogadores:</mat-label>
+                            <textarea matInput name="listPlayers" [(ngModel)]="players" (input)="canRun()" rows="9" required
+                                placeholder="Insira a lista com o nome dos jogadores">
+                            </textarea>
+                            <mat-error *ngIf="isInvalidPlayers">Favor preencher o campo acima.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
 
+            <div class="result-container" *ngIf="isReady">
+                <button mat-fab (click)="copyToClipboard(dataSource)">
+                    <mat-icon>file_copy</mat-icon>
+                    <span>Copiar</span>
+                </button>
+                <textarea [value]="dataSource" readonly *ngIf="isReady" rows="21"></textarea>
+                
+            </div>
+            </div>
     </mat-tab>
 </mat-tab-group>
