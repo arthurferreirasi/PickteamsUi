@@ -2,8 +2,6 @@
 <mat-dialog-content>
   
   <ul *ngFor="let player of data" >
-    <li>
-      {{player.name}}
-    </li>
+    <mat-slide-toggle labelPosition="before"><h3>{{player.name}}</h3></mat-slide-toggle>
   </ul>
 </mat-dialog-content>
