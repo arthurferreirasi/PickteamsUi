@@ -19,7 +19,7 @@ export class PickTeamsService {
   }
 
   public pickTeamsWithSeedPlayers(listPlayers: Player[], playersPerTeam: number): Observable<Array<Team>> {
-    const url = `${this.apiUrl}?PickTeamsSeedPlayers?quantityPerTeam=${playersPerTeam}`;
+    const url = `${this.apiUrl}/PickTeamsSeedPlayers?quantityPerTeam=${playersPerTeam}`;
 
     return this.http.post<any>(url, listPlayers);
   }
