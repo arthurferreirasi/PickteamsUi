@@ -1,0 +1,12 @@
+footer {
+    height: 15%;
+    background: var(--color-main-blue);
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: medium;
+}
+
+footer :hover {
+    color: var(--color-main-white);
+    cursor: pointer;
+}

@@ -28,7 +28,7 @@ import { SelectSeedPlayersModalComponent } from '../select-seed-players-modal/se
     MatTableModule,
     MatSlideToggleModule,
     SelectSeedPlayersModalComponent
-],
+  ],
   templateUrl: './pick-teams.component.html',
   styleUrl: './pick-teams.component.css'
 })
@@ -49,6 +49,13 @@ export class PickTeamsComponent {
   maxPlayers: number = 0;
   canSelectSeed: boolean = false;
 
+  seedPlayers: string = '';
+  seedPlayersPerTeam: number = 0;
+  seedListPlayers!: Player[];
+  seedDataSource: string = '';
+  isInvalidSeedPlayers!: boolean;
+  isReadySeed: boolean = false;
+
   constructor(private fb: FormBuilder, private svc: PickTeamsService) {
     this.form = this.fb.group({
       seuCampo: ['', [Validators.pattern("^[0-9]*$")]]
@@ -57,35 +64,54 @@ export class PickTeamsComponent {
 
   ngOnInit(): void {
     this.isInvalidPlayers = true;
+    this.isInvalidSeedPlayers = true;
     this.dataSource = '';
+    this.seedDataSource = '';
     this.listPlayers = [];
+    this.seedListPlayers = [];
   }
 
   onlyNumbers(event: KeyboardEvent): void {
     const charCode = event.keyCode ? event.keyCode : event.which;
     if (charCode < 48 || charCode > 57) {
-        event.preventDefault();
+      event.preventDefault();
     }
-}
+  }
 
   canRun(): boolean {
     this.isInvalidPlayers = (typeof this.players.trim() == 'undefined' || this.players.trim() == null || this.players.trim() == '');
     return this.isInvalidPlayers;
   }
 
-  openDialog() {
-    this.dialog.open(SelectSeedPlayersModalComponent, {
-      data: this.listPlayers,
-    });
+  canRunSeed(): boolean {
+    this.isInvalidSeedPlayers = (typeof this.seedPlayers.trim() == 'undefined' || this.seedPlayers.trim() == null || this.seedPlayers.trim() == '');
+    return this.isInvalidSeedPlayers;
   }
 
   selectSeedPlayers() {
-    if (this.canRun())
+    if (this.canRunSeed())
       return;
     this.cleanData();
     this.isLoading = true;
-    this.formatListPlayers(this.players);
+    this.seedListPlayers = this.formatListPlayers(this.seedPlayers);
     this.openDialog();
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(SelectSeedPlayersModalComponent, {
+      data: this.seedListPlayers,
+    });
+
+    dialogRef.afterClosed().subscribe((selectedList) => {
+      if (selectedList) {
+        this.svc.pickTeamsWithSeedPlayers(selectedList, this.seedPlayersPerTeam).subscribe(result => {
+          this.seedDataSource = this.formatDataSource(result);
+          this.isReadySeed = true;
+        });
+        this.seedPlayers = '';
+        this.isLoading = false;
+      }
+    });
   }
 
   addPlayer() {
@@ -93,7 +119,7 @@ export class PickTeamsComponent {
       return;
     this.cleanData();
     this.isLoading = true;
-    this.formatListPlayers(this.players);
+    this.listPlayers = this.formatListPlayers(this.players);
     this.svc.pickTeams(this.listPlayers, this.playersPerTeam).subscribe(result => {
       this.dataSource = this.formatDataSource(result);
       this.isReady = true;
@@ -102,11 +128,13 @@ export class PickTeamsComponent {
     this.isLoading = false;
   }
 
-  private formatListPlayers(players: string) {
+  private formatListPlayers(players: string): Player[] {
+    var formattedList: Player[] = [];
     var list = players.split('\n');
     list = list.map(x => x.replace(/[^a-zA-Z\sáÁàÀâÂãÃéÉêÊíÍóÓôÔõÕúÚüÜ]/g, ''));
     list = list.filter(item => item.trim() !== "");
-    list.forEach(x => this.listPlayers.push(new Player(x, false)));
+    list.forEach(x => formattedList.push(new Player(x, false)));
+    return formattedList;
   }
 
   private formatDataSource(data: Team[]): string {
@@ -124,7 +152,7 @@ export class PickTeamsComponent {
     });
   }
 
-  cleanData(){
+  cleanData() {
     this.listPlayers = [];
     this.displayedColumns = [];
   }

@@ -2,6 +2,16 @@
 <mat-dialog-content>
   
   <ul *ngFor="let player of data" >
-    <mat-slide-toggle labelPosition="before"><h3>{{player.name}}</h3></mat-slide-toggle>
+    <mat-slide-toggle 
+    labelPosition="before" 
+    [checked]="player.isSeed"
+    (change)="toggleIsSeed(player, $event.checked)">
+    <h3>{{player.name}}</h3>
+  </mat-slide-toggle>
   </ul>
+
+
 </mat-dialog-content>
+<mat-dialog-actions>
+<footer (click)="closeModal()"><h2>Concluir</h2></footer>
+</mat-dialog-actions>

@@ -40,20 +40,20 @@
         <div class="full-panel">
             <div class="pick-teams-container">
                 <form (ngSubmit)="selectSeedPlayers()" class="player-form">
-                    <button type="submit" mat-fab [disabled]="isInvalidPlayers">
+                    <button type="submit" mat-fab [disabled]="isInvalidSeedPlayers">
                         <mat-icon>key</mat-icon>
                         <span>Marcar chaves</span>
                     </button>
                     <div class="form-fields">
                         <mat-form-field>
                             <mat-label>Jogadores por time:</mat-label>
-                            <input type="number" matInput (keypress)="onlyNumbers($event)" [(ngModel)]="playersPerTeam"
-                                name="playersPerTeam">
+                            <input type="number" matInput (keypress)="onlyNumbers($event)" [(ngModel)]="seedPlayersPerTeam"
+                                name="seedPlayersPerTeam">
                         </mat-form-field>
     
                         <mat-form-field>
                             <mat-label>Lista de jogadores:</mat-label>
-                            <textarea matInput name="listPlayers" [(ngModel)]="players" (input)="canRun()" rows="9" required
+                            <textarea matInput name="seedListPlayers" [(ngModel)]="seedPlayers" (input)="canRunSeed()" rows="9" required
                                 placeholder="Insira a lista com o nome dos jogadores">
                             </textarea>
                             <mat-error *ngIf="isInvalidPlayers">Favor preencher o campo acima.</mat-error>
@@ -62,12 +62,12 @@
                 </form>
             </div>
 
-            <div class="result-container" *ngIf="isReady">
+            <div class="result-container" *ngIf="isReadySeed">
                 <button mat-fab (click)="copyToClipboard(dataSource)">
                     <mat-icon>file_copy</mat-icon>
                     <span>Copiar</span>
                 </button>
-                <textarea [value]="dataSource" readonly *ngIf="isReady" rows="21"></textarea>
+                <textarea [value]="seedDataSource" readonly *ngIf="isReadySeed" rows="21"></textarea>
                 
             </div>
             </div>
