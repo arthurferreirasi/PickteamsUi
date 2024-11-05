@@ -8,7 +8,7 @@ import { Team } from '../models/team';
   providedIn: 'root'
 })
 export class PickTeamsService {
-  private apiUrl = 'http://localhost:5178/api/PickTeams';
+  private apiUrl = 'https://pickteamsapi.onrender.com/api/PickTeams';
 
   constructor(private http: HttpClient) { }
 

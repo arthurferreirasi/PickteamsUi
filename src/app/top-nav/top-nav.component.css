@@ -1,24 +1,4 @@
 
-/* 
-html {
-    box-sizing: border-box;
-    font-size: 62.5%
-}
-
-body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    background: var(--color-white);
-    margin: 0;
-    padding: 0;
-
-    color: var(--color-lightgray);
-    font-size: 1.6em;
-    font-weight: 300;
-    letter-spacing: .01em;
-    line-height: 1.6
-} */
-
 a {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: var(--color-links);
